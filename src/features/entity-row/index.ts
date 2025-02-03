@@ -1,0 +1,1 @@
+export { EntityRow } from './ui';

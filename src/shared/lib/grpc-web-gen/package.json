@@ -1,0 +1,11 @@
+{
+  "name": "grpc-web-gen",
+  "private": true,
+  "version": "0.1.0",
+  "type": "commonjs",
+  "main": "vocabulary_pb.js",
+  "dependencies": {
+      "google-protobuf": "^3.21.2",
+      "grpc-web": "^1.5.0"
+  }
+}

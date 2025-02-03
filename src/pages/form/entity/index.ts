@@ -1,0 +1,1 @@
+export { EntityFormPage } from './ui';
