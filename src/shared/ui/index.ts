@@ -13,7 +13,6 @@ export { Drawer } from "./drawer";
 export { Checkbox, CheckboxField } from "./checkbox";
 export {
   Select,
-  SelectDescription,
   SelectLabel,
   SelectOption,
   SelectVirtualized,
@@ -24,3 +23,6 @@ export { Avatar } from './avatar';
 export { Label } from './label';
 export { Title } from './title';
 export { Text } from './text';
+export { DraggableResizableBlock } from './draggable-resizable-block';
+
+export { EntityRecordFieldSelect } from './entity-record-field';

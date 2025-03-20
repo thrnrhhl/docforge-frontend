@@ -3,15 +3,8 @@ import { FormModel, defaultValues, schema } from "./model";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Field, FormError, Input, Label, Text } from "@/shared/ui";
 import { FC, useEffect } from "react";
-import { vocabularyServiceClient, grpcQuery } from "@/shared/lib/grpc";
-import {
-  v1VocabularyDirectoryValueUpdateDefaultRequest,
-  v1VocabularyDirectoryValueUpdateDefaultResponse,
-  v1VocabularyDirectoryValueCreateDefaultRequest,
-  v1VocabularyDirectoryValueCreateDefaultResponse,
-  v1VocabularyDirectoryValueReadDefaultRequest,
-  v1VocabularyDirectoryValueReadDefaultResponse,
-} from "grpc-web-gen";
+import { jsonRpcApi } from "@/shared/jsonrpc";
+
 
 type Props = {
   recordId: string | null;
@@ -26,6 +19,11 @@ export const DirectoryValueForm: FC<Props> = ({
   onSubmitForm,
   onClose,
 }) => {
+  const [vocabularyDirectoryValueReadDefaultQuery] = jsonRpcApi.useLazyVocabularyDirectoryValueReadDefaultQuery();
+  const [vocabularyDirectoryValueCreateDefaultQuery] = jsonRpcApi.useLazyVocabularyDirectoryValueCreateDefaultQuery();
+  const [vocabularyDirectoryValueUpdateDefaultQuery] = jsonRpcApi.useLazyVocabularyDirectoryValueUpdateDefaultQuery();
+
+
   const { control, handleSubmit, reset } = useForm<FormModel>({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -35,28 +33,19 @@ export const DirectoryValueForm: FC<Props> = ({
   const onSubmit = handleSubmit(async (values) => {
     try {
       if (recordId) {
-        const request = new v1VocabularyDirectoryValueUpdateDefaultRequest();
-        request.setId(recordId);
-        request.setName(values.name);
-        request.setDirectoryid(directoryId);
-        console.log(recordId, values.name);
-
-        await grpcQuery<
-        v1VocabularyDirectoryValueUpdateDefaultRequest,
-        v1VocabularyDirectoryValueUpdateDefaultResponse
-        >(vocabularyServiceClient.v1VocabularyDirectoryValueUpdateDefault.bind(vocabularyServiceClient), request);
+        await vocabularyDirectoryValueUpdateDefaultQuery({
+          id: recordId,
+          name: values.name,
+          directoryId: directoryId,
+        }).unwrap()
 
         return onSubmitForm();
       }
 
-      const request = new v1VocabularyDirectoryValueCreateDefaultRequest();
-      request.setName(values.name);
-      request.setDirectoryid(directoryId);
-
-      await grpcQuery<
-      v1VocabularyDirectoryValueCreateDefaultRequest,
-      v1VocabularyDirectoryValueCreateDefaultResponse
-      >(vocabularyServiceClient.v1VocabularyDirectoryValueCreateDefault.bind(vocabularyServiceClient), request);
+      await vocabularyDirectoryValueCreateDefaultQuery({
+        name: values.name,
+        directoryId: directoryId,
+      }).unwrap()
 
       onSubmitForm();
     } catch (e) {
@@ -71,22 +60,12 @@ export const DirectoryValueForm: FC<Props> = ({
           return;
         }
 
-        const request = new v1VocabularyDirectoryValueReadDefaultRequest();
-        request.setId(recordId);
-
-        const response: v1VocabularyDirectoryValueReadDefaultResponse = await grpcQuery<
-        v1VocabularyDirectoryValueReadDefaultRequest,
-        v1VocabularyDirectoryValueReadDefaultResponse
-        >(vocabularyServiceClient.v1VocabularyDirectoryValueReadDefault.bind(vocabularyServiceClient), request);
-
-        const responseObject = response.toObject().directoryvalue;
-
-        if (!responseObject) {
-          return;
-        }
+        const response = await vocabularyDirectoryValueReadDefaultQuery({
+          id: recordId
+        }).unwrap()
 
         reset({
-          name: responseObject.name,
+          name: response.name,
         });
       } catch (e) {
         console.log(e);

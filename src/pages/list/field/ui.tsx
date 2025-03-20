@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 import {
   Button,
@@ -12,17 +12,11 @@ import {
   Text,
 } from "@/shared/ui";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { vocabularyServiceClient, grpcQuery } from "@/shared/lib/grpc";
-import { DirectoryForm } from "@/features/directory-form";
-import {
-  v1VocabularyFieldListDefaultRequest,
-  v1VocabularyFieldListDefaultResponse,
-  v1VocabularyDirectoryListDefaultRequest
-} from "grpc-web-gen";
 import { FieldForm } from "@/features/field-form";
+import { VocabularyFieldListDefaultResponse, jsonRpcApi } from "@/shared/jsonrpc";
 
 type GenericTableRowType =
-  v1VocabularyFieldListDefaultResponse.AsObject["fieldList"][0];
+  VocabularyFieldListDefaultResponse[number]
 
 export const FieldListPage: FC = () => {
   const { filter } = useGenericTableFilter({ keys: ["ps", "pn"] });
@@ -34,31 +28,10 @@ export const FieldListPage: FC = () => {
     isOpen: false,
     recordId: null,
   });
-  const [fieldList, setFieldList] = useState<
-    v1VocabularyFieldListDefaultResponse.AsObject["fieldList"]
-  >([]);
+  
+  const {data: fieldList = [], refetch} = jsonRpcApi.useVocabularyFieldListDefaultQuery({});
 
   const dataSource = fieldList;
-
-  const fetchData = async () => {
-    try {
-      const request = new v1VocabularyFieldListDefaultRequest();
-
-      const response: v1VocabularyFieldListDefaultResponse = await grpcQuery<
-        v1VocabularyFieldListDefaultRequest,
-        v1VocabularyFieldListDefaultResponse
-      >(
-        vocabularyServiceClient.v1VocabularyFieldListDefault.bind(
-          vocabularyServiceClient
-        ),
-        request
-      );
-
-      setFieldList(response.toObject().fieldList);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const handleEditRecord = (row: GenericTableRowType) => {
     setDrawerRecord({
@@ -80,12 +53,8 @@ export const FieldListPage: FC = () => {
 
   const handleSubmitFormDrawer = () => {
     handleCloseDrawer();
-    fetchData();
+    refetch();
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <>

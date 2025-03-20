@@ -911,3 +911,328 @@ export namespace v1VocabularyEntityListDefaultResponse {
   }
 }
 
+export class EntityRecordRecord extends jspb.Message {
+  getId(): string;
+  setId(value: string): EntityRecordRecord;
+
+  getEntityid(): string;
+  setEntityid(value: string): EntityRecordRecord;
+
+  getEntity(): EntityRecord | undefined;
+  setEntity(value?: EntityRecord): EntityRecordRecord;
+  hasEntity(): boolean;
+  clearEntity(): EntityRecordRecord;
+
+  getEntityrecordvalueList(): Array<EntityRecordValue>;
+  setEntityrecordvalueList(value: Array<EntityRecordValue>): EntityRecordRecord;
+  clearEntityrecordvalueList(): EntityRecordRecord;
+  addEntityrecordvalue(value?: EntityRecordValue, index?: number): EntityRecordValue;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EntityRecordRecord.AsObject;
+  static toObject(includeInstance: boolean, msg: EntityRecordRecord): EntityRecordRecord.AsObject;
+  static serializeBinaryToWriter(message: EntityRecordRecord, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EntityRecordRecord;
+  static deserializeBinaryFromReader(message: EntityRecordRecord, reader: jspb.BinaryReader): EntityRecordRecord;
+}
+
+export namespace EntityRecordRecord {
+  export type AsObject = {
+    id: string,
+    entityid: string,
+    entity?: EntityRecord.AsObject,
+    entityrecordvalueList: Array<EntityRecordValue.AsObject>,
+  }
+
+  export enum EntityCase { 
+    _ENTITY_NOT_SET = 0,
+    ENTITY = 3,
+  }
+}
+
+export class EntityRecordValue extends jspb.Message {
+  getId(): string;
+  setId(value: string): EntityRecordValue;
+  hasId(): boolean;
+  clearId(): EntityRecordValue;
+
+  getEntityrecordid(): string;
+  setEntityrecordid(value: string): EntityRecordValue;
+
+  getFieldid(): string;
+  setFieldid(value: string): EntityRecordValue;
+
+  getDetail(): EntityRecordValueDetail | undefined;
+  setDetail(value?: EntityRecordValueDetail): EntityRecordValue;
+  hasDetail(): boolean;
+  clearDetail(): EntityRecordValue;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EntityRecordValue.AsObject;
+  static toObject(includeInstance: boolean, msg: EntityRecordValue): EntityRecordValue.AsObject;
+  static serializeBinaryToWriter(message: EntityRecordValue, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EntityRecordValue;
+  static deserializeBinaryFromReader(message: EntityRecordValue, reader: jspb.BinaryReader): EntityRecordValue;
+}
+
+export namespace EntityRecordValue {
+  export type AsObject = {
+    id?: string,
+    entityrecordid: string,
+    fieldid: string,
+    detail?: EntityRecordValueDetail.AsObject,
+  }
+
+  export enum IdCase { 
+    _ID_NOT_SET = 0,
+    ID = 1,
+  }
+}
+
+export class EntityRecordValueDetail extends jspb.Message {
+  getFieldmnemocode(): string;
+  setFieldmnemocode(value: string): EntityRecordValueDetail;
+
+  getDirectoryvalueid(): string;
+  setDirectoryvalueid(value: string): EntityRecordValueDetail;
+  hasDirectoryvalueid(): boolean;
+  clearDirectoryvalueid(): EntityRecordValueDetail;
+
+  getDirectoryvalueidsList(): Array<string>;
+  setDirectoryvalueidsList(value: Array<string>): EntityRecordValueDetail;
+  clearDirectoryvalueidsList(): EntityRecordValueDetail;
+  addDirectoryvalueids(value: string, index?: number): EntityRecordValueDetail;
+
+  getText(): string;
+  setText(value: string): EntityRecordValueDetail;
+  hasText(): boolean;
+  clearText(): EntityRecordValueDetail;
+
+  getNumber(): number;
+  setNumber(value: number): EntityRecordValueDetail;
+  hasNumber(): boolean;
+  clearNumber(): EntityRecordValueDetail;
+
+  getDate(): string;
+  setDate(value: string): EntityRecordValueDetail;
+  hasDate(): boolean;
+  clearDate(): EntityRecordValueDetail;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EntityRecordValueDetail.AsObject;
+  static toObject(includeInstance: boolean, msg: EntityRecordValueDetail): EntityRecordValueDetail.AsObject;
+  static serializeBinaryToWriter(message: EntityRecordValueDetail, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EntityRecordValueDetail;
+  static deserializeBinaryFromReader(message: EntityRecordValueDetail, reader: jspb.BinaryReader): EntityRecordValueDetail;
+}
+
+export namespace EntityRecordValueDetail {
+  export type AsObject = {
+    fieldmnemocode: string,
+    directoryvalueid?: string,
+    directoryvalueidsList: Array<string>,
+    text?: string,
+    number?: number,
+    date?: string,
+  }
+
+  export enum DirectoryvalueidCase { 
+    _DIRECTORYVALUEID_NOT_SET = 0,
+    DIRECTORYVALUEID = 2,
+  }
+
+  export enum TextCase { 
+    _TEXT_NOT_SET = 0,
+    TEXT = 4,
+  }
+
+  export enum NumberCase { 
+    _NUMBER_NOT_SET = 0,
+    NUMBER = 5,
+  }
+
+  export enum DateCase { 
+    _DATE_NOT_SET = 0,
+    DATE = 6,
+  }
+}
+
+export class v1VocabularyEntityRecordCreateDefaultRequest extends jspb.Message {
+  getEntityid(): string;
+  setEntityid(value: string): v1VocabularyEntityRecordCreateDefaultRequest;
+
+  getEntityrecordvalueList(): Array<EntityRecordValue>;
+  setEntityrecordvalueList(value: Array<EntityRecordValue>): v1VocabularyEntityRecordCreateDefaultRequest;
+  clearEntityrecordvalueList(): v1VocabularyEntityRecordCreateDefaultRequest;
+  addEntityrecordvalue(value?: EntityRecordValue, index?: number): EntityRecordValue;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordCreateDefaultRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordCreateDefaultRequest): v1VocabularyEntityRecordCreateDefaultRequest.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordCreateDefaultRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordCreateDefaultRequest;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordCreateDefaultRequest, reader: jspb.BinaryReader): v1VocabularyEntityRecordCreateDefaultRequest;
+}
+
+export namespace v1VocabularyEntityRecordCreateDefaultRequest {
+  export type AsObject = {
+    entityid: string,
+    entityrecordvalueList: Array<EntityRecordValue.AsObject>,
+  }
+}
+
+export class v1VocabularyEntityRecordCreateDefaultResponse extends jspb.Message {
+  getId(): string;
+  setId(value: string): v1VocabularyEntityRecordCreateDefaultResponse;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordCreateDefaultResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordCreateDefaultResponse): v1VocabularyEntityRecordCreateDefaultResponse.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordCreateDefaultResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordCreateDefaultResponse;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordCreateDefaultResponse, reader: jspb.BinaryReader): v1VocabularyEntityRecordCreateDefaultResponse;
+}
+
+export namespace v1VocabularyEntityRecordCreateDefaultResponse {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class v1VocabularyEntityRecordUpdateDefaultRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): v1VocabularyEntityRecordUpdateDefaultRequest;
+
+  getEntityid(): string;
+  setEntityid(value: string): v1VocabularyEntityRecordUpdateDefaultRequest;
+
+  getEntityrecordvalueList(): Array<EntityRecordValue>;
+  setEntityrecordvalueList(value: Array<EntityRecordValue>): v1VocabularyEntityRecordUpdateDefaultRequest;
+  clearEntityrecordvalueList(): v1VocabularyEntityRecordUpdateDefaultRequest;
+  addEntityrecordvalue(value?: EntityRecordValue, index?: number): EntityRecordValue;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordUpdateDefaultRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordUpdateDefaultRequest): v1VocabularyEntityRecordUpdateDefaultRequest.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordUpdateDefaultRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordUpdateDefaultRequest;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordUpdateDefaultRequest, reader: jspb.BinaryReader): v1VocabularyEntityRecordUpdateDefaultRequest;
+}
+
+export namespace v1VocabularyEntityRecordUpdateDefaultRequest {
+  export type AsObject = {
+    id: string,
+    entityid: string,
+    entityrecordvalueList: Array<EntityRecordValue.AsObject>,
+  }
+}
+
+export class v1VocabularyEntityRecordUpdateDefaultResponse extends jspb.Message {
+  getId(): string;
+  setId(value: string): v1VocabularyEntityRecordUpdateDefaultResponse;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordUpdateDefaultResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordUpdateDefaultResponse): v1VocabularyEntityRecordUpdateDefaultResponse.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordUpdateDefaultResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordUpdateDefaultResponse;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordUpdateDefaultResponse, reader: jspb.BinaryReader): v1VocabularyEntityRecordUpdateDefaultResponse;
+}
+
+export namespace v1VocabularyEntityRecordUpdateDefaultResponse {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class v1VocabularyEntityRecordReadDefaultRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): v1VocabularyEntityRecordReadDefaultRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordReadDefaultRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordReadDefaultRequest): v1VocabularyEntityRecordReadDefaultRequest.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordReadDefaultRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordReadDefaultRequest;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordReadDefaultRequest, reader: jspb.BinaryReader): v1VocabularyEntityRecordReadDefaultRequest;
+}
+
+export namespace v1VocabularyEntityRecordReadDefaultRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class v1VocabularyEntityRecordReadDefaultResponse extends jspb.Message {
+  getId(): string;
+  setId(value: string): v1VocabularyEntityRecordReadDefaultResponse;
+
+  getEntityid(): string;
+  setEntityid(value: string): v1VocabularyEntityRecordReadDefaultResponse;
+
+  getEntityrecordvalueList(): Array<EntityRecordValue>;
+  setEntityrecordvalueList(value: Array<EntityRecordValue>): v1VocabularyEntityRecordReadDefaultResponse;
+  clearEntityrecordvalueList(): v1VocabularyEntityRecordReadDefaultResponse;
+  addEntityrecordvalue(value?: EntityRecordValue, index?: number): EntityRecordValue;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordReadDefaultResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordReadDefaultResponse): v1VocabularyEntityRecordReadDefaultResponse.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordReadDefaultResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordReadDefaultResponse;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordReadDefaultResponse, reader: jspb.BinaryReader): v1VocabularyEntityRecordReadDefaultResponse;
+}
+
+export namespace v1VocabularyEntityRecordReadDefaultResponse {
+  export type AsObject = {
+    id: string,
+    entityid: string,
+    entityrecordvalueList: Array<EntityRecordValue.AsObject>,
+  }
+}
+
+export class v1VocabularyEntityRecordListDefaultRequest extends jspb.Message {
+  getEntityid(): string;
+  setEntityid(value: string): v1VocabularyEntityRecordListDefaultRequest;
+  hasEntityid(): boolean;
+  clearEntityid(): v1VocabularyEntityRecordListDefaultRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordListDefaultRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordListDefaultRequest): v1VocabularyEntityRecordListDefaultRequest.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordListDefaultRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordListDefaultRequest;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordListDefaultRequest, reader: jspb.BinaryReader): v1VocabularyEntityRecordListDefaultRequest;
+}
+
+export namespace v1VocabularyEntityRecordListDefaultRequest {
+  export type AsObject = {
+    entityid?: string,
+  }
+
+  export enum EntityidCase { 
+    _ENTITYID_NOT_SET = 0,
+    ENTITYID = 1,
+  }
+}
+
+export class v1VocabularyEntityRecordListDefaultResponse extends jspb.Message {
+  getEntityrecordList(): Array<EntityRecordRecord>;
+  setEntityrecordList(value: Array<EntityRecordRecord>): v1VocabularyEntityRecordListDefaultResponse;
+  clearEntityrecordList(): v1VocabularyEntityRecordListDefaultResponse;
+  addEntityrecord(value?: EntityRecordRecord, index?: number): EntityRecordRecord;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): v1VocabularyEntityRecordListDefaultResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: v1VocabularyEntityRecordListDefaultResponse): v1VocabularyEntityRecordListDefaultResponse.AsObject;
+  static serializeBinaryToWriter(message: v1VocabularyEntityRecordListDefaultResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): v1VocabularyEntityRecordListDefaultResponse;
+  static deserializeBinaryFromReader(message: v1VocabularyEntityRecordListDefaultResponse, reader: jspb.BinaryReader): v1VocabularyEntityRecordListDefaultResponse;
+}
+
+export namespace v1VocabularyEntityRecordListDefaultResponse {
+  export type AsObject = {
+    entityrecordList: Array<EntityRecordRecord.AsObject>,
+  }
+}
+

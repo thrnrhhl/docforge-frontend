@@ -66,7 +66,7 @@ export const GenericTable: FC<Props> = ({
   }
 
   return (
-    <div className="relative overflow-hidden bg-white rounded-md shadow-sm border border-solid border-neutral-300">
+    <div className="relative overflow-hidden bg-white rounded-md shadow-sm border border-solid border-neutral-200">
       <table className="w-full text-sm text-left rtl:text-right table-fixed text-gray-500 border-spacing-0">
         <thead className="text-sm text-gray-700 uppercase bg-neutral-100 border-b border-solid border-neutral-300">
           <tr>

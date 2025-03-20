@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 import {
   Button,
@@ -12,12 +12,11 @@ import {
   Text,
 } from "@/shared/ui";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { vocabularyServiceClient, grpcQuery, } from "@/shared/lib/grpc";
 import { DirectoryForm } from "@/features/directory-form";
-import { v1VocabularyDirectoryListDefaultRequest, v1VocabularyDirectoryListDefaultResponse } from "grpc-web-gen";
+import { VocabularyDirectoryListDefaultResponse, jsonRpcApi } from "@/shared/jsonrpc";
 
 type GenericTableRowType =
-v1VocabularyDirectoryListDefaultResponse.AsObject["directoryList"][0];
+VocabularyDirectoryListDefaultResponse[number]
 
 export const DirectoryListPage: FC = () => {
   const { filter } = useGenericTableFilter({ keys: ["ps", "pn"] });
@@ -29,27 +28,10 @@ export const DirectoryListPage: FC = () => {
     isOpen: false,
     recordId: null,
   });
-  const [directoryList, setDirectoryList] = useState<
-  v1VocabularyDirectoryListDefaultResponse.AsObject["directoryList"]
-  >([]);
+  
+  const { data: directoryList = [], refetch } = jsonRpcApi.useVocabularyDirectoryListDefaultQuery({})
 
   const dataSource = directoryList;
-
-  const fetchData = async () => {
-    try {
-      const request = new v1VocabularyDirectoryListDefaultRequest();
-
-        const response: v1VocabularyDirectoryListDefaultResponse = await grpcQuery<
-        v1VocabularyDirectoryListDefaultRequest,
-        v1VocabularyDirectoryListDefaultResponse
-        >(vocabularyServiceClient.v1VocabularyDirectoryListDefault.bind(vocabularyServiceClient), request);
-
-
-      setDirectoryList(response.toObject().directoryList);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const handleEditRecord = (row: GenericTableRowType) => {
     setDrawerRecord({
@@ -71,12 +53,8 @@ export const DirectoryListPage: FC = () => {
 
   const handleSubmitFormDrawer = () => {
     handleCloseDrawer();
-    fetchData();
+    refetch();
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <>

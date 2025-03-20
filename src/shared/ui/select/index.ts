@@ -1,1 +1,1 @@
-export { Select, SelectDescription, SelectLabel, SelectOption, SelectVirtualized } from './ui';
+export { Select, SelectLabel, SelectOption, SelectVirtualized } from './ui';

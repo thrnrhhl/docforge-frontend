@@ -18,10 +18,10 @@ export const Button: FC<Props> = ({
       className={cn("text-xs",
         {
           
-          "rounded-md gap-2 px-3 h-8 py-1.5 cursor-pointer border-none shadow-sm flex items-center justify-center text-xs disabled:opacity-50":variant !== "unstyled",
+          "rounded-full gap-2 px-3 h-8 py-1.5 cursor-pointer border-none flex items-center justify-center text-xs disabled:opacity-50":variant !== "unstyled",
           "border-none bg-transparent cursor-pointer w-fit h-fit": variant === "unstyled",
-          "bg-blue-200 font-medium text-black border border-black/10 border-solid": variant === "primary",
-          "border border-neutral-400 border-solid text-neutral-500": variant === "tertinary",
+          "bg-black font-medium text-white border border-black/10 border-solid rounded-full": variant === "primary",
+          "border border-neutral-300 border-solid text-neutral-500": variant === "tertinary",
           "border border-blue-300 border-solid text-blue-500": variant === "secondary"
         },
         className

@@ -1,1 +1,1 @@
-export { EntityFormPage } from './ui';
+export { EntityFormPage as default } from './ui';

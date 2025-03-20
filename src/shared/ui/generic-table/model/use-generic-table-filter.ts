@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-// import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { objectToFilterString } from "./object-to-filter-string";
 import { GENERIC_PAGINATION_PN, GENERIC_PAGINATION_PS } from "./constants";
 
@@ -35,7 +34,7 @@ export const useGenericTableFilter = (props: UseGenericTableFilterProps) => {
   };
 
   const setFilter = (newFilter: Filter) => {
-    const queryString = objectToFilterString(newFilter);
+    objectToFilterString(newFilter);
     // navigate(`?${queryString}`);
   };
 
