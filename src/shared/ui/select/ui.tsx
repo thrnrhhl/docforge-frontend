@@ -16,12 +16,11 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Virtuoso } from "react-virtuoso";
 import { useThrottle } from "@uidotdev/usehooks";
 
-export type SelectProps = {
+export type Props = {
   className?: string;
   placeholder?: React.ReactNode;
   autoFocus?: boolean;
   hideSearch?: boolean;
-  "aria-label"?: string;
   virtualized?: boolean;
   children: React.ReactElement | Array<React.ReactElement>;
 } & Headless.ListboxProps<typeof Fragment, SelectValue[] | SelectValue | null>;
@@ -36,13 +35,12 @@ export type SelectOptionProps = {
   className?: string;
 } & Omit<Headless.ListboxOptionProps<"div", unknown>, "className">;
 
-const Select: React.FC<SelectProps> = forwardRef(function Select(
+const Select: React.FC<Props> = forwardRef(function Select(
   props,
   ref: React.ForwardedRef<HTMLSpanElement>
 ) {
   const { value, defaultValue, children: options } = props;
 
-  // Parse passed value from above component to convert it to array ofComboboxValue
   const [selected, setSelected] = useState<SelectValue[]>(() => {
     if (value) {
       if (Array.isArray(value)) {
@@ -63,10 +61,8 @@ const Select: React.FC<SelectProps> = forwardRef(function Select(
     return [];
   });
 
-  // Query used to find needed object in list
   const [query, setQuery] = useState("");
 
-  // Found objects by search query
   const [filteredOptions, setFilteredOptions] = useState<React.ReactElement[]>(
     () => {
       if (props.virtualized) {
@@ -81,7 +77,6 @@ const Select: React.FC<SelectProps> = forwardRef(function Select(
     }
   );
 
-  // Handle select of the item in the list
   const handleChange = (value: SelectValue | SelectValue[]) => {
     if (Array.isArray(value)) {
       setSelected(value.filter((el) => el.id));
@@ -94,7 +89,6 @@ const Select: React.FC<SelectProps> = forwardRef(function Select(
     setQuery("");
   };
 
-  // Handle search on query change
   useEffect(() => {
     if (props.virtualized) {
       return;
@@ -186,24 +180,8 @@ const SelectLabel: React.FC<React.ComponentPropsWithoutRef<"span">> = ({
   />
 );
 
-const SelectDescription: React.FC<React.ComponentPropsWithoutRef<"span">> = ({
-  className,
-  children,
-  ...props
-}) => (
-  <span
-    {...props}
-    className={cn(
-      className,
-      "flex flex-1 overflow-hidden text-zinc-500 before:w-2 before:min-w-0 before:shrink group-data-[focus]/option:text-white"
-    )}
-  >
-    <span className="flex-1 truncate">{children}</span>
-  </span>
-);
-
 export const SelectList: React.FC<
-  SelectProps & {
+  Props & {
     selected: SelectValue[];
     filteredOptions: React.ReactElement[];
     onQueryChange: (str: string) => void;
@@ -217,7 +195,6 @@ export const SelectList: React.FC<
     autoFocus,
     virtualized,
     hideSearch = false,
-    "aria-label": ariaLabel,
     multiple,
     children,
     onChange,
@@ -242,7 +219,6 @@ export const SelectList: React.FC<
     >
       <Headless.ListboxButton
         autoFocus={autoFocus}
-        aria-label={ariaLabel}
         className={cn([
           "group relative flex items-center w-full border border-neutral-300 border-solid bg-white rounded-md h-8 shadow-sm appearance-none",
           className,
@@ -311,10 +287,10 @@ export const SelectList: React.FC<
 
 interface SelectVirtualizedProps<T> {
   totalCount: number;
-  list: ({id: string; name: string}&T)[]
+  list: ({ id: string; name: string } & T)[];
   onInputChange?: (value: string) => void;
-  children: (data: { index: number, data: T }) => React.ReactNode;
-};
+  children: (data: { index: number; data: T }) => React.ReactNode;
+}
 
 const SelectVirtualized = <T extends {}>({
   list,
@@ -326,21 +302,24 @@ const SelectVirtualized = <T extends {}>({
 
   const throttledValue = useThrottle(query, 200);
 
-
   useEffect(() => {
-    setDisplayedList(list.filter(item => item.name.toLowerCase().includes(throttledValue.toLowerCase())));
-  }, [throttledValue])
+    setDisplayedList(
+      list.filter((item) =>
+        item.name.toLowerCase().includes(throttledValue.toLowerCase())
+      )
+    );
+  }, [throttledValue]);
 
   return (
     <div data-aria-label="select-virtualized">
-        <Input
-          className="rounded-none rounded-t-lg border-l-0 border-r-0 border-t-0 shadow-none outline-0 ring-0 focus:border-primary-300 focus:outline-none focus:ring-0"
-          onChange={(e) => setQuery(e.currentTarget.value)}
-        />
+      <Input
+        className="rounded-none rounded-t-lg border-l-0 border-r-0 border-t-0 shadow-none outline-0 ring-0 focus:border-primary-300 focus:outline-none focus:ring-0"
+        onChange={(e) => setQuery(e.currentTarget.value)}
+      />
 
       <div className="p-1">
         <Virtuoso
-          style={{height: "11.875rem"}}
+          style={{ height: "11.875rem" }}
           data={displayedList}
           totalCount={totalCount}
           itemContent={(index, data) => children({ index, data })}
@@ -350,10 +329,4 @@ const SelectVirtualized = <T extends {}>({
   );
 };
 
-export {
-  Select,
-  SelectDescription,
-  SelectLabel,
-  SelectOption,
-  SelectVirtualized,
-};
+export { Select, SelectLabel, SelectOption, SelectVirtualized };

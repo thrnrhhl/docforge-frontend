@@ -1,1 +1,1 @@
-export { FieldListPage } from './ui';
+export { FieldListPage as default} from './ui';

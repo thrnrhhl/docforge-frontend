@@ -1,0 +1,1 @@
+export { EntityRecordListPage as default } from './ui';

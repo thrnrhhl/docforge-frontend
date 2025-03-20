@@ -4,37 +4,14 @@ import { FC } from "react";
 import { Avatar,Button, Drawer, Navbar } from "@/shared/ui";
 import {
   ArrowRightIcon,
-  Bars3BottomRightIcon,
 } from "@heroicons/react/24/outline";
 
 export const Header: FC = () => {
   return (
-    <div className="h-10 flex items-center px-4 justify-between border-b border-b-neutral-300 border-solid">
-      <span className="text-xl md:text-xl font-heading font-black">Docforge</span>
+    <div className="flex items-center px-4 justify-between py-3">
+      <span className="text-lg md:text-lg font-semibold text-neutral-500">Docforge</span>
 
-      <div className="flex items-center gap-5">
-        <div className="items-center gap-2 hidden md:flex">
-          <Avatar size={7.5} />
-
-          <span className="text-sm">Администратор</span>
-        </div>
-
-        <Button
-          variant="tertinary"
-          className="w-6 h-6 p-0 hidden md:flex"
-          onClick={() => {}}
-        >
-          <ArrowRightIcon className="w-4 h-4" />
-        </Button>
-
-        <Button
-          variant="unstyled"
-          className="md:hidden"
-          onClick={() => {}}
-        >
-          <Bars3BottomRightIcon className="text-black w-5 h-5" />
-        </Button>
-      </div>
+    <img src="https://placehold.co/150" className="w-8 h-8 rounded-full object-cover"/>
 
       <Drawer
         header="Меню"

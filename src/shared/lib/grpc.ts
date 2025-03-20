@@ -3,8 +3,9 @@ import { VocabularyClient } from 'grpc-web-gen/VocabularyServiceClientPb';
 export const vocabularyServiceClient = new VocabularyClient('http://localhost:8080');
 
 const consoleLog = (color: string, methodName: string, payload: any) => {
-  console.groupCollapsed(`%c${methodName}`, `color: ${color}`, payload);
-  console.groupEnd();
+  console.log(`%c${methodName}`, `color: ${color};`, payload)
+  // console.groupCollapsed(`%c${methodName}`, `color: ${color}`, payload);
+  // console.groupEnd();
 }; 
 
 export function grpcQuery<TRequest, TResponse>(

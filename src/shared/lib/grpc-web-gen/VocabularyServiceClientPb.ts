@@ -813,5 +813,177 @@ export class VocabularyClient {
     this.methodDescriptorv1VocabularyEntityReadDefault);
   }
 
+  methodDescriptorv1VocabularyEntityRecordCreateDefault = new grpcWeb.MethodDescriptor(
+    '/vocabulary.Vocabulary/v1VocabularyEntityRecordCreateDefault',
+    grpcWeb.MethodType.UNARY,
+    vocabulary_pb.v1VocabularyEntityRecordCreateDefaultRequest,
+    vocabulary_pb.v1VocabularyEntityRecordCreateDefaultResponse,
+    (request: vocabulary_pb.v1VocabularyEntityRecordCreateDefaultRequest) => {
+      return request.serializeBinary();
+    },
+    vocabulary_pb.v1VocabularyEntityRecordCreateDefaultResponse.deserializeBinary
+  );
+
+  v1VocabularyEntityRecordCreateDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordCreateDefaultRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<vocabulary_pb.v1VocabularyEntityRecordCreateDefaultResponse>;
+
+  v1VocabularyEntityRecordCreateDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordCreateDefaultRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordCreateDefaultResponse) => void): grpcWeb.ClientReadableStream<vocabulary_pb.v1VocabularyEntityRecordCreateDefaultResponse>;
+
+  v1VocabularyEntityRecordCreateDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordCreateDefaultRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordCreateDefaultResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/vocabulary.Vocabulary/v1VocabularyEntityRecordCreateDefault',
+        request,
+        metadata || {},
+        this.methodDescriptorv1VocabularyEntityRecordCreateDefault,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/vocabulary.Vocabulary/v1VocabularyEntityRecordCreateDefault',
+    request,
+    metadata || {},
+    this.methodDescriptorv1VocabularyEntityRecordCreateDefault);
+  }
+
+  methodDescriptorv1VocabularyEntityRecordUpdateDefault = new grpcWeb.MethodDescriptor(
+    '/vocabulary.Vocabulary/v1VocabularyEntityRecordUpdateDefault',
+    grpcWeb.MethodType.UNARY,
+    vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultRequest,
+    vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultResponse,
+    (request: vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultRequest) => {
+      return request.serializeBinary();
+    },
+    vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultResponse.deserializeBinary
+  );
+
+  v1VocabularyEntityRecordUpdateDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultResponse>;
+
+  v1VocabularyEntityRecordUpdateDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultResponse) => void): grpcWeb.ClientReadableStream<vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultResponse>;
+
+  v1VocabularyEntityRecordUpdateDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordUpdateDefaultResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/vocabulary.Vocabulary/v1VocabularyEntityRecordUpdateDefault',
+        request,
+        metadata || {},
+        this.methodDescriptorv1VocabularyEntityRecordUpdateDefault,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/vocabulary.Vocabulary/v1VocabularyEntityRecordUpdateDefault',
+    request,
+    metadata || {},
+    this.methodDescriptorv1VocabularyEntityRecordUpdateDefault);
+  }
+
+  methodDescriptorv1VocabularyEntityRecordListDefault = new grpcWeb.MethodDescriptor(
+    '/vocabulary.Vocabulary/v1VocabularyEntityRecordListDefault',
+    grpcWeb.MethodType.UNARY,
+    vocabulary_pb.v1VocabularyEntityRecordListDefaultRequest,
+    vocabulary_pb.v1VocabularyEntityRecordListDefaultResponse,
+    (request: vocabulary_pb.v1VocabularyEntityRecordListDefaultRequest) => {
+      return request.serializeBinary();
+    },
+    vocabulary_pb.v1VocabularyEntityRecordListDefaultResponse.deserializeBinary
+  );
+
+  v1VocabularyEntityRecordListDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordListDefaultRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<vocabulary_pb.v1VocabularyEntityRecordListDefaultResponse>;
+
+  v1VocabularyEntityRecordListDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordListDefaultRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordListDefaultResponse) => void): grpcWeb.ClientReadableStream<vocabulary_pb.v1VocabularyEntityRecordListDefaultResponse>;
+
+  v1VocabularyEntityRecordListDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordListDefaultRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordListDefaultResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/vocabulary.Vocabulary/v1VocabularyEntityRecordListDefault',
+        request,
+        metadata || {},
+        this.methodDescriptorv1VocabularyEntityRecordListDefault,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/vocabulary.Vocabulary/v1VocabularyEntityRecordListDefault',
+    request,
+    metadata || {},
+    this.methodDescriptorv1VocabularyEntityRecordListDefault);
+  }
+
+  methodDescriptorv1VocabularyEntityRecordReadDefault = new grpcWeb.MethodDescriptor(
+    '/vocabulary.Vocabulary/v1VocabularyEntityRecordReadDefault',
+    grpcWeb.MethodType.UNARY,
+    vocabulary_pb.v1VocabularyEntityRecordReadDefaultRequest,
+    vocabulary_pb.v1VocabularyEntityRecordReadDefaultResponse,
+    (request: vocabulary_pb.v1VocabularyEntityRecordReadDefaultRequest) => {
+      return request.serializeBinary();
+    },
+    vocabulary_pb.v1VocabularyEntityRecordReadDefaultResponse.deserializeBinary
+  );
+
+  v1VocabularyEntityRecordReadDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordReadDefaultRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<vocabulary_pb.v1VocabularyEntityRecordReadDefaultResponse>;
+
+  v1VocabularyEntityRecordReadDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordReadDefaultRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordReadDefaultResponse) => void): grpcWeb.ClientReadableStream<vocabulary_pb.v1VocabularyEntityRecordReadDefaultResponse>;
+
+  v1VocabularyEntityRecordReadDefault(
+    request: vocabulary_pb.v1VocabularyEntityRecordReadDefaultRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: vocabulary_pb.v1VocabularyEntityRecordReadDefaultResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/vocabulary.Vocabulary/v1VocabularyEntityRecordReadDefault',
+        request,
+        metadata || {},
+        this.methodDescriptorv1VocabularyEntityRecordReadDefault,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/vocabulary.Vocabulary/v1VocabularyEntityRecordReadDefault',
+    request,
+    metadata || {},
+    this.methodDescriptorv1VocabularyEntityRecordReadDefault);
+  }
+
 }
 

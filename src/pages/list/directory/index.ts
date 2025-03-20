@@ -1,1 +1,1 @@
-export { DirectoryListPage } from './ui';
+export { DirectoryListPage as default} from './ui';

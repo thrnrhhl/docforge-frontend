@@ -1,0 +1,1 @@
+export { EntityRecordForm as default } from './ui';

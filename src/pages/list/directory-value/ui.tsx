@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 import {
   Button,
@@ -12,19 +12,14 @@ import {
   Text,
 } from "@/shared/ui";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { vocabularyServiceClient, grpcQuery } from "@/shared/lib/grpc";
-import {
-  v1VocabularyDirectoryListDefaultResponse,
-  v1VocabularyDirectoryReadDefaultRequest,
-  v1VocabularyDirectoryReadDefaultResponse,
-  v1VocabularyDirectoryValueListDefaultRequest,
-  v1VocabularyDirectoryValueListDefaultResponse,
-} from "grpc-web-gen";
 import { useParams } from "react-router-dom";
 import { DirectoryValueForm } from "@/features/directory-value-form";
+import {
+  VocabularyDirectoryListDefaultResponse,
+  jsonRpcApi,
+} from "@/shared/jsonrpc";
 
-type GenericTableRowType =
-  v1VocabularyDirectoryListDefaultResponse.AsObject["directoryList"][0];
+type GenericTableRowType = VocabularyDirectoryListDefaultResponse[number];
 
 export const DirectoryValueListPage: FC = () => {
   const { filter } = useGenericTableFilter({ keys: ["ps", "pn"] });
@@ -38,60 +33,27 @@ export const DirectoryValueListPage: FC = () => {
     isOpen: false,
     recordId: null,
   });
-  const [directoryValueList, setDirectoryValueList] = useState<
-    v1VocabularyDirectoryValueListDefaultResponse.AsObject["directoryvalueList"]
-  >([]);
 
-  const [directoryRead, setDirectoryRead] =
-    useState<v1VocabularyDirectoryReadDefaultResponse.AsObject["directory"]>();
-
-  const dataSource = directoryValueList;
-
-  const fetchData = async () => {
-    try {
-      if(!params.id) {
-        return;
+  const { data: directoryValueList = [], refetch } =
+    jsonRpcApi.useVocabularyDirectoryValueListDefaultQuery(
+      {
+        directoryId: params.id ?? "",
+      },
+      {
+        skip: !params.id,
       }
+    );
 
-      const directoryReadDefaultRequest =
-        new v1VocabularyDirectoryReadDefaultRequest();
-      directoryReadDefaultRequest.setId(params.id);
-
-      const directoryReadResponse: v1VocabularyDirectoryReadDefaultResponse =
-        await grpcQuery<
-          v1VocabularyDirectoryReadDefaultRequest,
-          v1VocabularyDirectoryReadDefaultResponse
-        >(
-          vocabularyServiceClient.v1VocabularyDirectoryReadDefault.bind(
-            vocabularyServiceClient
-          ),
-          directoryReadDefaultRequest
-        );
-
-      const directoryValueListRequest =
-        new v1VocabularyDirectoryValueListDefaultRequest();
-
-        directoryValueListRequest.setDirectoryid(params.id)
-
-      const directoryListRequestResponse: v1VocabularyDirectoryValueListDefaultResponse =
-        await grpcQuery<
-          v1VocabularyDirectoryValueListDefaultRequest,
-          v1VocabularyDirectoryValueListDefaultResponse
-        >(
-          vocabularyServiceClient.v1VocabularyDirectoryValueListDefault.bind(
-            vocabularyServiceClient
-          ),
-          directoryValueListRequest
-        );
-
-      setDirectoryValueList(
-        directoryListRequestResponse.toObject().directoryvalueList
-      );
-      setDirectoryRead(directoryReadResponse.toObject().directory);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { data: directoryRead } =
+    jsonRpcApi.useVocabularyDirectoryReadDefaultQuery(
+      {
+        id: params.id ?? "",
+      },
+      {
+        skip: !params.id,
+      }
+    );
+  const dataSource = directoryValueList;
 
   const handleEditRecord = (row: GenericTableRowType) => {
     setDrawerRecord({
@@ -113,12 +75,8 @@ export const DirectoryValueListPage: FC = () => {
 
   const handleSubmitFormDrawer = () => {
     handleCloseDrawer();
-    fetchData();
+    refetch();
   };
-
-  useEffect(() => {
-    fetchData();
-  }, [params]);
 
   return (
     <>

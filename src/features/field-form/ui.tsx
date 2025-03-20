@@ -1,4 +1,4 @@
-import { grpcQuery, vocabularyServiceClient } from "@/shared/lib/grpc";
+
 import {
   Button,
   Field,
@@ -10,24 +10,17 @@ import {
   SelectOption,
   Text,
 } from "@/shared/ui";
-import {
-  FieldDetail,
-  v1VocabularyDirectoryListDefaultRequest,
-  v1VocabularyDirectoryListDefaultResponse,
-  v1VocabularyFieldCreateDefaultRequest,
-  v1VocabularyFieldReadDefaultRequest,
-  v1VocabularyFieldReadDefaultResponse,
-  v1VocabularyFieldUpdateDefaultRequest,
-} from "grpc-web-gen";
+
 import { FC, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormModel, defaultValues, schema } from "./model";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { VocabularyFieldCreateDefaultRequest, VocabularyFieldReadDefaultResponse, jsonRpcApi } from "@/shared/jsonrpc";
 
 export type FieldProps = {
-  detail: v1VocabularyFieldCreateDefaultRequest.AsObject["detail"];
+  detail: VocabularyFieldCreateDefaultRequest["detail"]
   onChange: (
-    data: v1VocabularyFieldCreateDefaultRequest.AsObject["detail"]
+    data: FormModel["detail"]
   ) => void;
 };
 
@@ -45,9 +38,13 @@ type Props = {
   onClose: () => void;
 };
 
-export const FieldForm: FC<Props> = ({ recordId, onSubmitForm, onClose }) => {
+export const FieldForm: FC<Props> = ({ recordId,  onSubmitForm, onClose}) => {
+  const [vocabularyFieldCreateDefaultQuery] = jsonRpcApi.useLazyVocabularyFieldCreateDefaultQuery();
+  const [vocabularyFieldUpdateDefaultQuery] = jsonRpcApi.useLazyVocabularyFieldUpdateDefaultQuery();
+  const [vocabularyFieldReadDefaultQuery] = jsonRpcApi.useLazyVocabularyFieldReadDefaultQuery();
+
   const [fieldRecord, setFieldRecord] =
-    useState<v1VocabularyFieldReadDefaultResponse.AsObject["field"]>();
+    useState<VocabularyFieldReadDefaultResponse>();
 
   const { control, handleSubmit, watch, reset, setValue } = useForm<FormModel>({
     mode: "onChange",
@@ -59,17 +56,17 @@ export const FieldForm: FC<Props> = ({ recordId, onSubmitForm, onClose }) => {
   const detailWatch = watch("detail");
 
   const handleFieldChange = (
-    data: v1VocabularyFieldCreateDefaultRequest.AsObject["detail"]
+    data: FormModel["detail"]
   ) => {
-    if (data?.directoryid) {
-      setValue("detail.directoryId", data.directoryid);
+    if (data?.directoryId) {
+      setValue("detail.directoryId", data.directoryId);
     }
 
     if (data?.label) {
       setValue("detail.label", data.label);
     }
 
-    if (data?.label) {
+    if (data?.placeholder) {
       setValue("detail.placeholder", data.placeholder);
     }
   };
@@ -77,63 +74,31 @@ export const FieldForm: FC<Props> = ({ recordId, onSubmitForm, onClose }) => {
   const onSubmit = handleSubmit(async (values) => {
     try {
       if (recordId) {
-        const request = new v1VocabularyFieldUpdateDefaultRequest();
-        const detail = new FieldDetail();
+        await vocabularyFieldUpdateDefaultQuery({
+          id: recordId,
+          name: values.name,
+          type: values.type,
+          detail: {
+            label: values.detail.label,
+            placeholder: values.detail.placeholder,
+            directoryId: values.detail.directoryId ?? undefined
+          }
+        });
 
-        if (values.detail.label) {
-          detail.setLabel(values.detail.label);
+        return  onSubmitForm();
+      }
+
+      await vocabularyFieldCreateDefaultQuery({
+        name: values.name,
+        type: values.type,
+        detail: {
+          label: values.detail.label,
+            placeholder: values.detail.placeholder,
+            directoryId: values.detail.directoryId ?? undefined
         }
+      });
 
-        if (values.detail.placeholder) {
-          detail.setLabel(values.detail.placeholder);
-        }
-
-        if (values.detail.directoryId) {
-          detail.setLabel(values.detail.directoryId);
-        }
-
-        request.setId(recordId);
-        request.setName(values.name);
-        request.setType(values.type);
-
-        request.setDetail(detail);
-
-        await grpcQuery(
-          vocabularyServiceClient.v1VocabularyFieldUpdateDefault.bind(
-            vocabularyServiceClient
-          ),
-          request
-        );
-
-        return;
-      }
-
-      const request = new v1VocabularyFieldCreateDefaultRequest();
-      const detail = new FieldDetail();
-
-      if (values.detail.label) {
-        detail.setLabel(values.detail.label);
-      }
-
-      if (values.detail.placeholder) {
-        detail.setLabel(values.detail.placeholder);
-      }
-
-      if (values.detail.directoryId) {
-        detail.setLabel(values.detail.directoryId);
-      }
-
-      request.setName(values.name);
-      request.setType(values.type);
-
-      request.setDetail(detail);
-
-      await grpcQuery(
-        vocabularyServiceClient.v1VocabularyFieldCreateDefault.bind(
-          vocabularyServiceClient
-        ),
-        request
-      );
+      onSubmitForm();
     } catch (e) {
       //
     }
@@ -145,24 +110,16 @@ export const FieldForm: FC<Props> = ({ recordId, onSubmitForm, onClose }) => {
         return;
       }
 
-      const fieldReadDefaultRequest = new v1VocabularyFieldReadDefaultRequest();
-      fieldReadDefaultRequest.setId(recordId);
+      const response = await vocabularyFieldReadDefaultQuery({
+        id: recordId
+      }).unwrap()
 
-      const response = await grpcQuery(
-        vocabularyServiceClient.v1VocabularyFieldReadDefault.bind(
-          vocabularyServiceClient
-        ),
-        fieldReadDefaultRequest
-      );
-
-      const record = response.toObject().field;
-
-      setFieldRecord(record);
+      setFieldRecord(response);
 
       reset({
-        name: record?.name ?? "",
-        type: record?.type ?? "",
-        detail: record?.detail,
+        name: response.name ?? "",
+        type: response.type ?? "",
+        detail: response.detail,
       });
     } catch (e) {
       //
@@ -203,7 +160,7 @@ export const FieldForm: FC<Props> = ({ recordId, onSubmitForm, onClose }) => {
         <Controller
           control={control}
           name="type"
-          render={({ field: { value, onChange }, fieldState: { error } }) => {
+          render={({ field: {  onChange }, fieldState: { error } }) => {
             return (
               <Field>
                 <Label>Тип поля</Label>
@@ -258,7 +215,7 @@ export const FieldForm: FC<Props> = ({ recordId, onSubmitForm, onClose }) => {
       </div>
 
       <div className="flex items-center gap-2 justify-end">
-        <Button variant="tertinary" onClick={() => {}}>
+        <Button variant="tertinary" onClick={onClose}>
           <Text as="span">Отменить</Text>
         </Button>
 
@@ -296,29 +253,8 @@ export const FieldCheckbox: FC<FieldProps> = ({ detail, onChange }) => {
 };
 
 export const FieldCheckboxList: FC<FieldProps> = ({ detail, onChange }) => {
-  const [directoryList, setDirectoryList] = useState<
-    v1VocabularyDirectoryListDefaultResponse.AsObject["directoryList"]
-  >([]);
+  const {data: directoryList = []} = jsonRpcApi.useVocabularyDirectoryListDefaultQuery({});
 
-  const fetchData = async () => {
-    try {
-      const response: v1VocabularyDirectoryListDefaultResponse =
-        await grpcQuery(
-          vocabularyServiceClient.v1VocabularyDirectoryListDefault.bind(
-            vocabularyServiceClient
-          ),
-          new v1VocabularyDirectoryListDefaultRequest()
-        );
-
-      setDirectoryList(response.toObject().directoryList);
-    } catch (e) {
-      //
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <div className="border-b border-b-neutral-300 border-dashed py-4">
@@ -346,7 +282,7 @@ export const FieldCheckboxList: FC<FieldProps> = ({ detail, onChange }) => {
           <Select
             onChange={(selected) => {
               if (selected && !Array.isArray(selected)) {
-                onChange({ directoryid: selected.id });
+                onChange({ directoryId: selected.id });
               }
             }}
           >
@@ -400,30 +336,8 @@ export const FieldTextField: FC<FieldProps> = ({ detail, onChange }) => {
   );
 };
 
-export const FieldSelect: FC<FieldProps> = () => {
-  const [directoryList, setDirectoryList] = useState<
-    v1VocabularyDirectoryListDefaultResponse.AsObject["directoryList"]
-  >([]);
-
-  const fetchData = async () => {
-    try {
-      const response: v1VocabularyDirectoryListDefaultResponse =
-        await grpcQuery(
-          vocabularyServiceClient.v1VocabularyDirectoryListDefault.bind(
-            vocabularyServiceClient
-          ),
-          new v1VocabularyDirectoryListDefaultRequest()
-        );
-
-      setDirectoryList(response.toObject().directoryList);
-    } catch (e) {
-      //
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+export const FieldSelect: FC<FieldProps> = ({detail, onChange}) => {
+  const {data: directoryList = []} = jsonRpcApi.useVocabularyDirectoryListDefaultQuery({});
 
   return (
     <div className="border-b border-b-neutral-300 border-dashed py-4">
@@ -435,19 +349,27 @@ export const FieldSelect: FC<FieldProps> = () => {
         <Field>
           <Label>Название поля</Label>
 
-          <Input type="text" placeholder="Введите название поля" />
+          <Input type="text" placeholder="Введите название поля" onChange={(e) => {
+              onChange({ ...detail, label: e.currentTarget.value });
+            }}/>
         </Field>
 
         <Field>
           <Label>Заполнитель поля</Label>
 
-          <Input type="text" placeholder="Введите заполнитель поля" />
+          <Input type="text" placeholder="Введите заполнитель поля" onChange={(e) => {
+              onChange({ ...detail, placeholder: e.currentTarget.value });
+            }}/>
         </Field>
 
         <Field>
           <Label>Справочник для значений</Label>
 
-          <Select>
+          <Select onChange={(value) => {
+            if(value && !Array.isArray(value)) {
+              onChange({ ...detail, directoryId: value.id });
+            }
+          }}>
             {directoryList.map((key) => (
               <SelectOption key={key.id} value={key}>
                 <SelectLabel>{key.name}</SelectLabel>
@@ -461,29 +383,8 @@ export const FieldSelect: FC<FieldProps> = () => {
 };
 
 export const FieldSelectMultiple: FC<FieldProps> = () => {
-  const [directoryList, setDirectoryList] = useState<
-    v1VocabularyDirectoryListDefaultResponse.AsObject["directoryList"]
-  >([]);
+  const {data: directoryList = []} = jsonRpcApi.useVocabularyDirectoryListDefaultQuery({});
 
-  const fetchData = async () => {
-    try {
-      const response: v1VocabularyDirectoryListDefaultResponse =
-        await grpcQuery(
-          vocabularyServiceClient.v1VocabularyDirectoryListDefault.bind(
-            vocabularyServiceClient
-          ),
-          new v1VocabularyDirectoryListDefaultRequest()
-        );
-
-      setDirectoryList(response.toObject().directoryList);
-    } catch (e) {
-      //
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <div className="border-b border-b-neutral-300 border-dashed py-4">
